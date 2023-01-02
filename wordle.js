@@ -18,7 +18,7 @@ function displayLetter(key) {
     document.getElementById(currentTile).value = key.toUpperCase();
 }
 
-function removeLetterFromDisplay() {
+function removeDisplayedLetter() {
     document.getElementById(currentTile).value = "";
 }
 
@@ -42,7 +42,7 @@ document.getElementsByTagName("body")[0].addEventListener("keydown", function() 
         console.log(keyPressed);
     } else if (keyPressed == "Backspace") {
         goToPreviousTile(currentTile);
-        removeLetterFromDisplay();
+        removeDisplayedLetter();
         removeLetterFromGuess(keyPressed);
     } else {
         displayLetter(keyPressed);
