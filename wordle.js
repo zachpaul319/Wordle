@@ -1,21 +1,3 @@
-/*TODO:
-    * Start page with empty tiles
-    * Start on tile A1
-    * When key pressed:
-        *If key is backspace:
-            Remove letter and go back to previous tile
-        *Else: 
-            *Add key to guess String 
-            *Change value of current tile to the key pressed
-            *Change tile to next tile
-    * After all tiles for row filled:
-        *When "Enter" pressed:
-            Iterate through row and check all tiles
-            If guess is correct:
-                wait for all color changes, then handle winning
-            Else:
-                Wait for color switches, then head to next row */
-
 const answer = "HELLO";
 var guess = [];
 var currentTile = "A1"
@@ -24,11 +6,19 @@ function keyPress(e) {
     return e.key;
 }
 
+function addLetterToGuess(letter) {
+    guess.push(letter);
+}
+
+function removeLetterFromGuess(letter) {
+    guess.pop(letter);
+}
+
 function displayLetter(key) {
     document.getElementById(currentTile).value = key.toUpperCase();
 }
 
-function removeLetter() {
+function removeLetterFromDisplay() {
     document.getElementById(currentTile).value = "";
 }
 
@@ -52,9 +42,11 @@ document.getElementsByTagName("body")[0].addEventListener("keydown", function() 
         console.log(keyPressed);
     } else if (keyPressed == "Backspace") {
         goToPreviousTile(currentTile);
-        removeLetter();
+        removeLetterFromDisplay();
+        removeLetterFromGuess(keyPressed);
     } else {
         displayLetter(keyPressed);
         goToNextTile(currentTile);
+        addLetterToGuess(keyPressed);
     }
 });
