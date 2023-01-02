@@ -23,8 +23,11 @@ function removeDisplayedLetter() {
 }
 
 function goToNextTile(current) {
-    let nextTile = current[0] + String(Number(current[1]) + 1);
-    currentTile = nextTile;
+    let col = Number(current[1]);
+    if (col <= 5) {
+        let nextTile = current[0] + String(col + 1);
+        currentTile = nextTile;
+    }
 }
 
 function goToPreviousTile(current) {
@@ -53,18 +56,18 @@ function changeTileColors() {
     }
 }
 
-document.getElementsByTagName("body")[0].addEventListener("keydown", function() {
-    let keyPressed = String(keyPress(window.event));
-    
-    if (guess.length == 5 && keyPressed == "Enter") {
-        changeTileColors();
-    } else if (keyPressed == "Backspace") {
-        goToPreviousTile(currentTile);
-        removeDisplayedLetter();
-        removeLetterFromGuess(keyPressed);
-    } else {
-        displayLetter(keyPressed);
-        goToNextTile(currentTile);
-        addLetterToGuess(keyPressed);
-    }
-});
+function addKeyDownListener() {
+    document.getElementsByTagName("body")[0].addEventListener("keydown", function() {
+        let keyPressed = String(keyPress(window.event));
+        
+         if (keyPressed == "Backspace") {
+            goToPreviousTile(currentTile);
+            removeDisplayedLetter();
+            removeLetterFromGuess(keyPressed);
+        } else {
+            displayLetter(keyPressed);
+            goToNextTile(currentTile);
+            addLetterToGuess(keyPressed);
+        }
+    });
+}
