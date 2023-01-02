@@ -1,4 +1,4 @@
-const answer = "HELLO";
+const answer = "hello";
 var guess = [];
 var currentTile = "A1"
 
@@ -35,11 +35,29 @@ function goToPreviousTile(current) {
     }
 }
 
+function isCorrect() {
+}
+
+function changeTileColors() {
+    const tiles = document.getElementsByClassName("tile");
+
+    for (let i = 0; i < 5; i++) {
+        if (guess[i] == answer[i]) {
+            tiles[i].style.backgroundColor = "green";
+        } else if (answer.includes(guess[i])) {
+            tiles[i].style.backgroundColor = "gold";
+        } else {
+            tiles[i].style.backgroundColor = "grey";
+        }
+        tiles[i].style.color = "white";
+    }
+}
+
 document.getElementsByTagName("body")[0].addEventListener("keydown", function() {
     let keyPressed = String(keyPress(window.event));
     
-    if (keyPressed == "Enter") {
-        console.log(keyPressed);
+    if (guess.length == 5 && keyPressed == "Enter") {
+        changeTileColors();
     } else if (keyPressed == "Backspace") {
         goToPreviousTile(currentTile);
         removeDisplayedLetter();
