@@ -2,7 +2,8 @@ const answer = "hello";
 var guess = [];
 var currentTile = "A1"
 var rows = ["A", "B", "C", "D", "E", "F"];
-var currentRow = rows[0];
+var currentRowByClassTile = 0;
+var currentRowByIndex = rows[currentRowByClassTile/5];
 
 function keyPress(e) {
     return e.key;
@@ -46,18 +47,34 @@ function changeTileColor(i, color) {
     tiles[i].style.color = "white";
 }
 
-function changeAllTilesInRow() {
-    var i = 0;
+function goToNextRow() {
+    currentRowByClassTile += 5;
+    currentRowByIndex = rows[currentRowByClassTile/5];
+    currentTile = currentRowByIndex + "1";
+}
+
+function clearGuess() {
+    guess = [];
+}
+
+function enterPressed() {
+    var i = currentRowByClassTile; var j = 0;
+
     var interval = setInterval(function() {
-        if (guess[i] == answer[i]) {
+        if (guess[j] == answer[j]) {
             changeTileColor(i, "green");
-        } else if (answer.includes(guess[i])) {
+        } else if (answer.includes(guess[j])) {
             changeTileColor(i, "gold");
         } else {
             changeTileColor(i, "grey")
         }
+        ++i;
 
-        if (++i == 5) clearInterval(interval);
+        if (++j == 5) {
+            clearInterval(interval);
+            goToNextRow();
+            clearGuess();
+        };
     }, 250)
 }
 
@@ -66,7 +83,7 @@ function addKeyDownListener() {
         let keyPressed = String(keyPress(window.event));
         
         if (guess.length == 5 && keyPressed == "Enter") {
-            changeAllTilesInRow();
+            enterPressed();
         } else if (keyPressed == "Backspace") {
             goToPreviousTile(currentTile);
             removeDisplayedLetter();
