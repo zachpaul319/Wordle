@@ -1,9 +1,10 @@
 const answer = "hello";
 var guess = [];
-var currentTile = "A1"
-var rows = ["A", "B", "C", "D", "E", "F"];
+
+const rows = ["A", "B", "C", "D", "E", "F"];
 var currentRowByClassTile = 0;
-var currentRowByIndex = rows[currentRowByClassTile/5];
+var currentRowByIndex = rows[0];
+var currentTile = "A1"
 
 function keyPress(e) {
     return e.key;
@@ -61,37 +62,47 @@ function enterPressed() {
     var i = currentRowByClassTile; var j = 0;
 
     var interval = setInterval(function() {
-        if (guess[j] == answer[j]) {
+        if (guess[j] === answer[j]) {
             changeTileColor(i, "green");
         } else if (answer.includes(guess[j])) {
             changeTileColor(i, "gold");
         } else {
-            changeTileColor(i, "grey")
+            changeTileColor(i, "grey");
         }
         ++i;
 
         if (++j == 5) {
             clearInterval(interval);
+            
+            //The following three functions will be executed once each tile has been checked and changed
             goToNextRow();
             clearGuess();
+            addKeyDownListener();
         };
     }, 250)
 }
 
-function addKeyDownListener() {
-    document.getElementsByTagName("body")[0].addEventListener("keydown", function() {
-        let keyPressed = String(keyPress(window.event));
+function handleKeyPressed() {
+    let keyPressed = String(keyPress(window.event));
         
-        if (guess.length == 5 && keyPressed == "Enter") {
-            enterPressed();
-        } else if (keyPressed == "Backspace") {
-            goToPreviousTile(currentTile);
-            removeDisplayedLetter();
-            removeLetterFromGuess(keyPressed);
-        } else {
-            displayLetter(keyPressed);
-            goToNextTile(currentTile);
-            addLetterToGuess(keyPressed);
-        }
-    });
+    if (guess.length == 5 && keyPressed == "Enter") {
+        removeKeyDownListener();
+        enterPressed();
+    } else if (keyPressed == "Backspace") {
+        goToPreviousTile(currentTile);
+        removeDisplayedLetter();
+        removeLetterFromGuess(keyPressed);
+    } else {
+        displayLetter(keyPressed);
+        goToNextTile(currentTile);
+        addLetterToGuess(keyPressed);
+    }
+}
+
+function addKeyDownListener() {
+    document.getElementsByTagName("body")[0].addEventListener("keydown", handleKeyPressed);
+}
+
+function removeKeyDownListener() {
+    document.getElementsByTagName("body")[0].removeEventListener("keydown", handleKeyPressed);
 }
