@@ -1,1 +1,6 @@
-export const WORDS = [];
+export const WORDS = [
+    "hello",
+    "about",
+    "think",
+    "place"
+];

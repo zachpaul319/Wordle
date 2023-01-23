@@ -1,10 +1,17 @@
-const answer = "hello";
-var guess = [];
+import {WORDS} from "./words.js";
+
+window.onload = addKeyDownListener();
+
+let words = WORDS;
+let randomIndex = Math.floor(Math.random() * words.length);
+let answer = Array.from(words.splice(randomIndex, 1)[0]);
+
+let guess = [];
 
 const rows = ["A", "B", "C", "D", "E", "F"];
-var currentRowByClassTile = 0;
-var currentRowByIndex = rows[0];
-var currentTile = "A1"
+let currentRowByClassTile = 0;
+let currentRowByIndex = rows[0];
+let currentTile = "A1"
 
 function keyPress(e) {
     return e.key;
@@ -58,10 +65,14 @@ function clearGuess() {
     guess = [];
 }
 
-function enterPressed() {
-    var i = currentRowByClassTile; var j = 0;
+function isCorrect() {
+    return JSON.stringify(guess) === JSON.stringify(answer);
+}
 
-    var interval = setInterval(function() {
+function enterPressed() {
+    let i = currentRowByClassTile; let j = 0;
+
+    let interval = setInterval(function() {
         if (guess[j] === answer[j]) {
             changeTileColor(i, "green");
         } else if (answer.includes(guess[j])) {
@@ -74,10 +85,14 @@ function enterPressed() {
         if (++j == 5) {
             clearInterval(interval);
             
-            //The following three functions will be executed once each tile has been checked and changed
-            goToNextRow();
-            clearGuess();
-            addKeyDownListener();
+            if (isCorrect()) {
+                console.log("That's correct!");
+            } else {
+                console.log("That's incorrect :(");
+                goToNextRow();
+                clearGuess();
+                addKeyDownListener();
+            }
         };
     }, 250)
 }
