@@ -1,6 +1,6 @@
 window.onload = async function() {
-    let wordsFile = await fetch("words.txt");
-    let wordsText = await wordsFile.text();
+    const wordsFile = await fetch("words.txt");
+    const wordsText = await wordsFile.text();
 
     addKeyDownListener();
     const WORDS = wordsText.toLowerCase().split('\r\n');
