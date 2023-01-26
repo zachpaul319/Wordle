@@ -1,19 +1,18 @@
 window.onload = async function() {
     const wordsFile = await fetch("words.txt");
     const wordsText = await wordsFile.text();
+    const WORDS = wordsText.toLowerCase().split('\r\n');
 
     addKeyDownListener();
-    const WORDS = wordsText.toLowerCase().split('\r\n');
     let randomIndex = Math.floor(Math.random() * WORDS.length);
     let answer = Array.from(WORDS.splice(randomIndex, 1)[0]);
     console.log(answer);
 
     let guess = [];
 
-    const rows = ["A", "B", "C", "D", "E", "F"];
-    let currentRowByClassTile = 0;
-    let currentRowByIndex = rows[0];
-    let currentTile = "A1"
+    let currentTile = document.getElementsByClassName("tile")[0];
+    let currentTileIndex = 0;
+    let currentRow = 0;
 
     function keyPress(e) {
         return e.key;
@@ -28,27 +27,29 @@ window.onload = async function() {
     }
 
     function displayLetter(key) {
-        document.getElementById(currentTile).value = key.toUpperCase();
+        if (currentTileIndex < currentRow + 5) {
+            currentTile.value = key.toUpperCase();
+        }
     }
 
     function removeDisplayedLetter() {
-        document.getElementById(currentTile).value = "";
+        currentTile.value = "";
     }
 
-    function goToNextTile(current) {
-        let col = Number(current[1]);
-        if (col <= 5) {
-            let nextTile = current[0] + String(col + 1);
-            currentTile = nextTile;
+    function goToNextTile() {
+        if (currentTileIndex <= currentRow + 4) {
+            currentTileIndex += 1;
+            currentTile = document.getElementsByClassName("tile")[currentTileIndex];
         }
+        console.log(currentTileIndex);
     }
 
-    function goToPreviousTile(current) {
-        let col = Number(current[1]);
-        if (col > 1) {
-            let previousTile = current[0] + String(col - 1);
-            currentTile = previousTile;
+    function goToPreviousTile() {
+        if (currentTileIndex >= currentRow + 1) {
+            currentTileIndex -= 1;
+            currentTile = document.getElementsByClassName("tile")[currentTileIndex];
         }
+        console.log(currentTileIndex);
     }
 
     function changeTileColor(i, color) {
@@ -58,9 +59,8 @@ window.onload = async function() {
     }
 
     function goToNextRow() {
-        currentRowByClassTile += 5;
-        currentRowByIndex = rows[currentRowByClassTile/5];
-        currentTile = currentRowByIndex + "1";
+        currentRow += 5;
+        currentTile = document.getElementsByClassName("tile")[currentRow];
     }
 
     function clearGuess() {
@@ -72,7 +72,7 @@ window.onload = async function() {
     }
 
     function enterPressed() {
-        let i = currentRowByClassTile; let j = 0;
+        let i = currentRow; let j = 0;
 
         let interval = setInterval(function() {
             if (guess[j] === answer[j]) {
@@ -106,12 +106,12 @@ window.onload = async function() {
             removeKeyDownListener();
             enterPressed();
         } else if (keyPressed == "Backspace") {
-            goToPreviousTile(currentTile);
+            goToPreviousTile();
             removeDisplayedLetter();
             removeLetterFromGuess(keyPressed);
         } else {
             displayLetter(keyPressed);
-            goToNextTile(currentTile);
+            goToNextTile();
             addLetterToGuess(keyPressed);
         }
     }
