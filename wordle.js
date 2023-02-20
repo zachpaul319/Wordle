@@ -23,8 +23,8 @@ window.onload = async function() {
         guess.push(letter);
     }
 
-    function removeLetterFromGuess(letter) {
-        guess.pop(letter);
+    function removeLetterFromGuess() {
+        guess.pop();
     }
 
     function displayLetter(key) {
@@ -103,7 +103,7 @@ window.onload = async function() {
         } else if (keyPressed == "Backspace") {
             goToPreviousTile();
             removeDisplayedLetter();
-            removeLetterFromGuess(keyPressed);
+            removeLetterFromGuess();
         } else {
             if (currentTileIndex < currentRow + 5) {
                 addLetterToGuess(keyPressed);
