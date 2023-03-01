@@ -3,8 +3,6 @@ window.onload = async function() {
     const wordsText = await wordsFile.text();
     const WORDS = wordsText.toLowerCase().split('\r\n');
 
-    addKeyDownListener();
-
     let randomIndex = Math.floor(Math.random() * WORDS.length);
     const ANSWER = Array.from(WORDS.splice(randomIndex, 1)[0]);
     console.log(ANSWER);
@@ -14,6 +12,8 @@ window.onload = async function() {
     let currentTile = document.getElementsByClassName("tile")[0];
     let currentTileIndex = 0;
     let currentRow = 0;
+
+    addKeyDownListener();
 
     function keyPress(e) {
         return e.key;
