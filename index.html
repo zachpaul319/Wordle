@@ -19,13 +19,21 @@
             <input type="text" name="password" id="password" required>
             <br><br>
 
-            <button type="submit" onclick="validate()">Submit</button>
+            <button type="reset" onclick="validate()">Submit</button>
         </form>
     </div>
 
     <script>
         function validate() {
-            window.location.href = "wordle.html";
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            if (username == "" || password == "") {
+                alert("Please fill out all fields")
+            } else {
+                console.log('here');
+                window.location.href = "wordle.html";
+            }
         }
     </script>
 </body>
