@@ -5,8 +5,6 @@ window.onload = async function() {
 
     addKeyDownListener();
 
-    document.getElementsByClassName("tile")[0].addEventListener("click", function() {document.getElementsByClassName("tile")[0].focus();})
-
     let randomIndex = Math.floor(Math.random() * WORDS.length);
     const ANSWER = Array.from(WORDS.splice(randomIndex, 1)[0]);
     console.log(ANSWER);
