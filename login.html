@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle :: Login</title>
+    <link rel="stylesheet" href="wordle.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="instructions.html">Instructions</a></li>
+            <li id="loginAndPlayLink"><a href="login.html">Login and Play!</a></li>
+        </ul>
+    </nav>
+
+    <h1 class="bigHeaders">Ready to Play? Please Log In</h1>
+    
+    <div id="loginContainer">
+        <form>
+            <label for="username" class="loginLabel">Username:</label>
+            <input type="text" name="username" id="username" required>
+            <br><br>
+
+            <label for="password" class="loginLabel">Password:</label>
+            <input type="password" name="password" id="password" required>
+            <br><br>
+
+            <button id="submitBtn" type="reset" onclick="validate()">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function validate() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            if (username == "" || password == "") {
+                alert("Please fill out all fields")
+            } else {
+                window.location.href = "wordle.html";
+            }
+        }
+    </script>
+</body>
+</html>
+

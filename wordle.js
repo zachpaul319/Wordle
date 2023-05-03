@@ -3,8 +3,12 @@ window.onload = async function() {
     const wordsText = await wordsFile.text();
     const WORDS = wordsText.toLowerCase().split('\r\n');
 
+    const LETTERS = "abcdefghijklmnopqrstuvwxyz";
+
     let randomIndex = Math.floor(Math.random() * WORDS.length);
-    const ANSWER = Array.from(WORDS.splice(randomIndex, 1)[0]);
+    const WORD = WORDS[randomIndex];
+    const ANSWER = Array.from(WORD);
+    sessionStorage.setItem("answer", "\"" + WORD.toUpperCase() + "\"");
     console.log(ANSWER);
 
     let guess = [];
@@ -13,9 +17,11 @@ window.onload = async function() {
     let currentTileIndex = 0;
     let currentRow = 0;
 
+    let attempt = 0;
+
     addKeyDownListener();
 
-    function keyPress(e) {
+    function getKeyPressed(e) {
         return e.key;
     }
 
@@ -83,9 +89,11 @@ window.onload = async function() {
                 clearInterval(interval);
                 
                 if (isCorrect()) {
-                    console.log("That's correct!");
+                    window.location.replace("success.html");
                 } else {
-                    console.log("That's incorrect :(");
+                    if (++attempt == 6) {
+                        window.location.replace("failure.html");
+                    }
                     goToNextRow();
                     clearGuess();
                     addKeyDownListener();
@@ -95,16 +103,18 @@ window.onload = async function() {
     }
 
     function handleKeyPressed() {
-        let keyPressed = String(keyPress(window.event));
+        let keyPressed = String(getKeyPressed(window.event));
             
         if (guess.length == 5 && keyPressed == "Enter") {
             removeKeyDownListener();
             enterPressed();
-        } else if (keyPressed == "Backspace") {
+        } 
+        else if (keyPressed == "Backspace") {
             goToPreviousTile();
             removeDisplayedLetter();
             removeLetterFromGuess();
-        } else {
+        } 
+        else if (LETTERS.includes(keyPressed)) {
             if (currentTileIndex < currentRow + 5) {
                 addLetterToGuess(keyPressed);
                 displayLetter(keyPressed);
@@ -120,5 +130,7 @@ window.onload = async function() {
     function removeKeyDownListener() {
         document.getElementsByTagName("body")[0].removeEventListener("keydown", handleKeyPressed);
     }
-}
+};
+
+
 

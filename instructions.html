@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle :: Instructions</title>
+    <link rel="stylesheet" href="wordle.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="instructions.html">Instructions</a></li>
+            <li id="loginAndPlayLink"><a href="login.html">Login and Play!</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 class="bigHeaders" >How to Play:</h1>
+    </header>
+
+    <div id="imageContainer">
+        <button id="backBtn" class="instruBtn" style="visibility: hidden;" onclick="previousImage()">Back</button>
+        <img id="instructionImage" src="media/instr_1.png" width="300px" height="400px">
+        <button id="nextBtn" class="instruBtn" onclick="nextImage()">Next</button>
+    </div>
+    <br>
+
+    <p id="instructionText">1. To begin, simply start typing in your guess!</p>
+
+    <script>
+        const INSTRUCTIONS = 
+        [
+            "1. To begin, simply start typing in your guess!",
+            "2. Press 'Enter', and the letter colors will change according to the accuracy of your guess.",
+            "3. Keep guessing until your guess is correct or you have reached the end without having correctly guessed.",
+            "4. If your answer is correct, your screen will look like this, and you can choose to play again",
+            "5. If your answer is incorrect, your screen will look like this, but you will still have the option to play again."
+        ]
+
+        function previousImage() {
+            let image = document.getElementById("instructionImage")
+            let text = document.getElementById("instructionText");
+            let nextBtn = document.getElementById("nextBtn");
+            let backBtn = document.getElementById("backBtn");
+
+            let splitSrc = image.src.split("/");
+            let fileName = splitSrc[splitSrc.length - 1];
+
+            switch(fileName) {
+                case "instr_5.png":
+                    image.src = "media/instr_4.png";
+                    image.style.width = "410px";
+                    nextBtn.style.visibility = "visible";
+                    text.innerHTML = INSTRUCTIONS[3];
+                    break;
+                case "instr_4.png":
+                    image.src = "media/instr_3.png";
+                    image.style.width = "300px"
+                    image.style.border = "none";
+                    text.innerHTML = INSTRUCTIONS[2];
+                    break;
+                case "instr_3.png":
+                    image.src = "media/instr_2.png";
+                    text.innerHTML = INSTRUCTIONS[1];
+                    break;
+                case "instr_2.png":
+                    image.src = "media/instr_1.png";
+                    backBtn.style.visibility = "hidden";
+                    text.innerHTML = INSTRUCTIONS[0];
+                    break;
+            }
+        }
+
+        function nextImage() {
+            let image = document.getElementById("instructionImage")
+            let text = document.getElementById("instructionText");
+            let nextBtn = document.getElementById("nextBtn");
+            let backBtn = document.getElementById("backBtn");
+
+            let splitSrc = image.src.split("/");
+            let fileName = splitSrc[splitSrc.length - 1];
+
+            switch(fileName) {
+                case "instr_1.png":
+                    image.src = "media/instr_2.png";
+                    backBtn.style.visibility = "visible";
+                    text.innerHTML = INSTRUCTIONS[1];
+                    break;
+                case "instr_2.png":
+                    image.src = "media/instr_3.png";
+                    text.innerHTML = INSTRUCTIONS[2];
+                    break;
+                case "instr_3.png":
+                    image.src = "media/instr_4.png";
+                    image.style.width = "410px";
+                    image.style.border = "2px solid black"
+                    text.innerHTML = INSTRUCTIONS[3];
+                    break;
+                case "instr_4.png":
+                    image.src = "media/instr_5.png";
+                    image.style.width = "550px";
+                    nextBtn.style.visibility = "hidden";
+                    text.innerHTML = INSTRUCTIONS[4];
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

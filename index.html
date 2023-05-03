@@ -4,38 +4,59 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wordle Login</title>
-    <link rel="stylesheet" href="login.css">
+    <title>Wordle :: Welcome</title>
+    <link rel="stylesheet" href="wordle.css">
 </head>
 <body>
-    <h1>Welcome to Wordle!</h1>
-    <div class="login-container">
-        <form>
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" required>
-            <br><br>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="instructions.html">Instructions</a></li>
+            <li id="loginAndPlayLink"><a href="login.html">Login and Play!</a></li>
+        </ul>
+    </nav>
 
-            <label for="password">Password:</label>
-            <input type="text" name="password" id="password" required>
-            <br><br>
+    <header>
+        <h1 id="welcomeHeader">Welcome to <span id="wordleSpan">Wordle!</span></h1>
+    </header>
 
-            <button type="reset" onclick="validate()">Submit</button>
-        </form>
+    <div id="wrapper">
+        <main>
+            <div class="onethird" id="left">
+                <h3>What is Wordle?</h3>
+                <p><em>Wordle</em> is a daily word game created by a Brooklyn-based software engineer named Josh Wardle. Each day,
+                players are given six attempts to guess the five-letter word of the day, with color-coded boxes being used as indicators 
+                of the accuracy of their guess. Featured here is my adaption, where players don't have to wait for the next day, but can
+                guess as many words as they want!</p>
+            </div>
+
+            <div class="onethird" id="right">
+                <h3>What Wordle teaches us:</h3>
+                <ul>
+                    <li>Developing strategy</li>
+                    <li>Opening up your mind</li>
+                    <li>Learn from your mistakes</li>
+                    <li>Use an iterative process of thinking</li>
+                    <li>In life, there will always be a new problem you can solve tomorrow</li>
+                </ul>
+            </div>
+
+            <div class="onethird" id="center">
+                <h3>What do I do?</h3>
+                <p>For full instructions, please see the "Instructions" page. In simple terms, to start, simply click "Login and Play!". After you've
+                    entered your login credentiaLs, you will be met with the 5-wide by 6-long grid that is your game board. Once you there, simply start
+                    typing in your first guess! For each letter of each guess, the box will turn grey if the letter is not the guess, yellow if the letter
+                    is in the word, but not in the right spot, and green if the letter is in the correct spot!</p>
+            </div>
+        </main>
     </div>
 
-    <script>
-        function validate() {
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
+    <button class="bigBtn" type="reset" onclick="goToLogin()">Let's go!</button>
 
-            if (username == "" || password == "") {
-                alert("Please fill out all fields")
-            } else {
-                console.log('here');
-                window.location.href = "wordle.html";
-            }
+    <script>
+        function goToLogin() {
+            window.location.href = "login.html";
         }
     </script>
 </body>
 </html>
-
