@@ -1,5 +1,5 @@
 window.onload = async function() {
-    const wordsFile = await fetch("words.txt");
+    const wordsFile = await fetch("../words.txt");
     const wordsText = await wordsFile.text();
     const WORDS = wordsText.toLowerCase().split('\r\n');
 

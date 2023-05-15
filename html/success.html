@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wordle :: Incorrect</title>
-    <link rel="stylesheet" href="wordle.css">
+    <title>Wordle :: Success</title>
+    <link rel="stylesheet" href="../css/wordle.css">
 </head>
 <body>
     <nav>
@@ -17,15 +17,12 @@
     </nav>
 
     <header>
-        <h1 class="bigHeaders">That's Incorrect. The correct answer was:</h1>
-        <h1 class="bigHeaders" id="answer"></h1>
+        <h1 class="bigHeaders">That's Right! Play Again?</h1>
     </header>
 
-    <button class="bigBtn" type="reset" onclick="playAgain()">Play Again</button>
+    <button class="bigBtn" type="reset" onclick="playAgain()">Yes, DUH!</button>
 
     <script>
-        document.getElementById("answer").innerHTML = sessionStorage.getItem("answer");
-        
         function playAgain() {
             window.location.replace("wordle.html");
         }
