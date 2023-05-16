@@ -1,15 +1,18 @@
 window.onload = async function() {
-    const wordsFile = await fetch("../words.txt");
-    const wordsText = await wordsFile.text();
-    const WORDS = wordsText.toLowerCase().split('\r\n');
+    const serializedUser = sessionStorage.getItem("user");
+    const USER = JSON.parse(serializedUser);
+    
+    const CURRENT_LEVEL = USER.currentLevel;
+    document.getElementById("currentLevel").innerHTML = "Level " + CURRENT_LEVEL;
 
-    const LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    const levelsHash = USER.levelsHash;
 
-    let randomIndex = Math.floor(Math.random() * WORDS.length);
-    const WORD = WORDS[randomIndex];
+    const WORD = levelsHash[CURRENT_LEVEL];
     const ANSWER = Array.from(WORD);
     sessionStorage.setItem("answer", "\"" + WORD.toUpperCase() + "\"");
     console.log(ANSWER);
+
+    const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
     let guess = [];
 

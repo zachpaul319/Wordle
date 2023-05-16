@@ -28,22 +28,15 @@
             <input type="password" name="password" id="password" required>
             <br><br>
 
-            <button id="submitBtn" type="reset" onclick="validate()">Submit</button>
+            <button id="playBtn" type="reset" onclick="validate()">Play</button>
         </form>
     </div>
 
-    <script>
-        function validate() {
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
+    <br><br><br>
 
-            if (username == "" || password == "") {
-                alert("Please fill out all fields")
-            } else {
-                window.location.href = "wordle.html";
-            }
-        }
-    </script>
+    <p id="noAcc">Don't have an account? <a id="createOne" href="signup.html">Create one!</a></p>
+
+    <script src="../javascript/login.js"></script>
 </body>
 </html>
 
