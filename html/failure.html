@@ -7,7 +7,7 @@
     <title>Wordle :: Incorrect</title>
     <link rel="stylesheet" href="../css/wordle.css">
 </head>
-<body>
+<body onload="showAnswer()">
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -21,14 +21,8 @@
         <h1 class="bigHeaders" id="answer"></h1>
     </header>
 
-    <button class="bigBtn" type="reset" onclick="playAgain()">Play Again</button>
+    <button class="bigBtn" type="reset" onclick="advance()">Play Again</button>
 
-    <script>
-        document.getElementById("answer").innerHTML = sessionStorage.getItem("answer");
-        
-        function playAgain() {
-            window.location.replace("wordle.html");
-        }
-    </script>
+    <script src="../javascript/advance.js"></script>
 </body>
 </html>

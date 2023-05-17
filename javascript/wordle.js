@@ -1,139 +1,138 @@
-window.onload = async function() {
-    const serializedUser = sessionStorage.getItem("user");
-    const USER = JSON.parse(serializedUser);
-    
-    const CURRENT_LEVEL = USER.currentLevel;
-    document.getElementById("currentLevel").innerHTML = "Level " + CURRENT_LEVEL;
+const serializedUser = sessionStorage.getItem("user");
+const USER = JSON.parse(serializedUser);
 
-    const levelsHash = USER.levelsHash;
+const CURRENT_LEVEL = USER.currentLevel;
+document.getElementById("currentLevel").innerHTML = "Level " + CURRENT_LEVEL;
 
-    const WORD = levelsHash[CURRENT_LEVEL];
-    const ANSWER = Array.from(WORD);
-    sessionStorage.setItem("answer", "\"" + WORD.toUpperCase() + "\"");
-    console.log(ANSWER);
+const levelsHash = USER.levelsHash;
 
-    const LETTERS = "abcdefghijklmnopqrstuvwxyz";
+const WORD = levelsHash[CURRENT_LEVEL];
+const ANSWER = Array.from(WORD);
+sessionStorage.setItem("answer", "\"" + WORD.toUpperCase() + "\"");
+console.log(ANSWER);
 
-    let guess = [];
+const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
-    let currentTile = document.getElementsByClassName("tile")[0];
-    let currentTileIndex = 0;
-    let currentRow = 0;
+let guess = [];
 
-    let attempt = 0;
+let currentTile = document.getElementsByClassName("tile")[0];
+let currentTileIndex = 0;
+let currentRow = 0;
 
-    addKeyDownListener();
+let attempt = 0;
 
-    function getKeyPressed(e) {
-        return e.key;
-    }
+addKeyDownListener();
 
-    function addLetterToGuess(letter) {
-        guess.push(letter);
-    }
+function getKeyPressed(e) {
+    return e.key;
+}
 
-    function removeLetterFromGuess() {
-        guess.pop();
-    }
+function addLetterToGuess(letter) {
+    guess.push(letter);
+}
 
-    function displayLetter(key) {
-        currentTile.value = key.toUpperCase();
-    }
+function removeLetterFromGuess() {
+    guess.pop();
+}
 
-    function removeDisplayedLetter() {
-        currentTile.value = "";
-    }
+function displayLetter(key) {
+    currentTile.value = key.toUpperCase();
+}
 
-    function goToNextTile() {
-        currentTileIndex += 1;
+function removeDisplayedLetter() {
+    currentTile.value = "";
+}
+
+function goToNextTile() {
+    currentTileIndex += 1;
+    currentTile = document.getElementsByClassName("tile")[currentTileIndex];
+}
+
+function goToPreviousTile() {
+    if (currentTileIndex >= currentRow + 1) {
+        currentTileIndex -= 1;
         currentTile = document.getElementsByClassName("tile")[currentTileIndex];
     }
+}
 
-    function goToPreviousTile() {
-        if (currentTileIndex >= currentRow + 1) {
-            currentTileIndex -= 1;
-            currentTile = document.getElementsByClassName("tile")[currentTileIndex];
+function changeTileColor(i, color) {
+    const tiles = document.getElementsByClassName("tile");
+    tiles[i].style.backgroundColor = color;
+    tiles[i].style.color = "white";
+}
+
+function goToNextRow() {
+    currentRow += 5;
+    currentTile = document.getElementsByClassName("tile")[currentRow];
+}
+
+function clearGuess() {
+    guess = [];
+}
+
+function isCorrect() {
+    return JSON.stringify(guess) === JSON.stringify(ANSWER);
+}
+
+function enterPressed() {
+    let i = currentRow; let j = 0;
+
+    let interval = setInterval(function() {
+        if (guess[j] === ANSWER[j]) {
+            changeTileColor(i, "green");
+        } else if (ANSWER.includes(guess[j])) {
+            changeTileColor(i, "gold");
+        } else {
+            changeTileColor(i, "grey");
         }
-    }
+        ++i;
 
-    function changeTileColor(i, color) {
-        const tiles = document.getElementsByClassName("tile");
-        tiles[i].style.backgroundColor = color;
-        tiles[i].style.color = "white";
-    }
-
-    function goToNextRow() {
-        currentRow += 5;
-        currentTile = document.getElementsByClassName("tile")[currentRow];
-    }
-
-    function clearGuess() {
-        guess = [];
-    }
-
-    function isCorrect() {
-        return JSON.stringify(guess) === JSON.stringify(ANSWER);
-    }
-
-    function enterPressed() {
-        let i = currentRow; let j = 0;
-
-        let interval = setInterval(function() {
-            if (guess[j] === ANSWER[j]) {
-                changeTileColor(i, "green");
-            } else if (ANSWER.includes(guess[j])) {
-                changeTileColor(i, "gold");
+        if (++j == 5) {
+            clearInterval(interval);
+            
+            if (isCorrect()) {
+                window.location.replace("success.html");
             } else {
-                changeTileColor(i, "grey");
-            }
-            ++i;
-
-            if (++j == 5) {
-                clearInterval(interval);
-                
-                if (isCorrect()) {
-                    window.location.replace("success.html");
+                if (++attempt == 6) {
+                    window.location.replace("failure.html");
                 } else {
-                    if (++attempt == 6) {
-                        window.location.replace("failure.html");
-                    }
                     goToNextRow();
                     clearGuess();
                     addKeyDownListener();
-                }
-            };
-        }, 250)
-    }
-
-    function handleKeyPressed() {
-        let keyPressed = String(getKeyPressed(window.event));
-            
-        if (guess.length == 5 && keyPressed == "Enter") {
-            removeKeyDownListener();
-            enterPressed();
-        } 
-        else if (keyPressed == "Backspace") {
-            goToPreviousTile();
-            removeDisplayedLetter();
-            removeLetterFromGuess();
-        } 
-        else if (LETTERS.includes(keyPressed)) {
-            if (currentTileIndex < currentRow + 5) {
-                addLetterToGuess(keyPressed);
-                displayLetter(keyPressed);
-                goToNextTile();
+                } 
             }
-        }        
-    }
+        };
+    }, 250)
+}
 
-    function addKeyDownListener() {
-        document.getElementsByTagName("body")[0].addEventListener("keydown", handleKeyPressed);
-    }
+function handleKeyPressed() {
+    let keyPressed = String(getKeyPressed(window.event));
+        
+    if (guess.length == 5 && keyPressed == "Enter") {
+        removeKeyDownListener();
+        enterPressed();
+    } 
+    else if (keyPressed == "Backspace") {
+        goToPreviousTile();
+        removeDisplayedLetter();
+        removeLetterFromGuess();
+    } 
+    else if (LETTERS.includes(keyPressed)) {
+        if (currentTileIndex < currentRow + 5) {
+            addLetterToGuess(keyPressed);
+            displayLetter(keyPressed);
+            goToNextTile();
+        }
+    }        
+}
 
-    function removeKeyDownListener() {
-        document.getElementsByTagName("body")[0].removeEventListener("keydown", handleKeyPressed);
-    }
-};
+function addKeyDownListener() {
+    document.getElementsByTagName("body")[0].addEventListener("keydown", handleKeyPressed);
+}
+
+function removeKeyDownListener() {
+    document.getElementsByTagName("body")[0].removeEventListener("keydown", handleKeyPressed);
+}
 
 
 
