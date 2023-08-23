@@ -42,7 +42,7 @@ function getUser() {
         .then(json => {
             getUserResponseHandler(json);
         })
-        .catch(error => console.log(error));
+        .catch(error => {console.log(error)});
 }
 
 function getUserResponseHandler(json) {
